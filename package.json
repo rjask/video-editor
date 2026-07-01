@@ -1,0 +1,16 @@
+{
+  "name": "video-editor",
+  "version": "1.0.0",
+  "description": "Browser-based video editor: trim, crop, and add captions to your own video clips. All processing happens client-side with ffmpeg.wasm.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "license": "MIT"
+}
