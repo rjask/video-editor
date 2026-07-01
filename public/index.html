@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Video Editor</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Video Editor</h1>
+    <p class="subtitle">Trim, crop, and caption your videos &mdash; all in your browser. Nothing is uploaded anywhere.</p>
+  </header>
+
+  <main>
+    <section id="upload-section" class="panel">
+      <label for="file-input" class="upload-label">
+        <span id="upload-text">Choose a video file to edit</span>
+        <input type="file" id="file-input" accept="video/*" />
+      </label>
+    </section>
+
+    <section id="editor" class="editor hidden">
+      <div class="preview-column">
+        <div class="video-wrap" id="video-wrap">
+          <video id="preview" controls></video>
+          <div id="crop-box" class="crop-box hidden">
+            <div id="resize-handle" class="resize-handle"></div>
+          </div>
+        </div>
+        <div class="timeline">
+          <input type="range" id="scrubber" min="0" max="100" value="0" step="0.01" />
+          <div class="time-readout"><span id="current-time">0:00</span> / <span id="total-time">0:00</span></div>
+        </div>
+      </div>
+
+      <div class="controls-column">
+
+        <div class="control-group">
+          <h2>Trim</h2>
+          <div class="row">
+            <label>Start
+              <input type="number" id="trim-start" min="0" step="0.1" value="0" />
+            </label>
+            <button type="button" id="set-start" class="mini-btn">Set from playhead</button>
+          </div>
+          <div class="row">
+            <label>End
+              <input type="number" id="trim-end" min="0" step="0.1" value="0" />
+            </label>
+            <button type="button" id="set-end" class="mini-btn">Set from playhead</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2>Crop <label class="toggle"><input type="checkbox" id="crop-enable" /> Enable</label></h2>
+          <div class="row four">
+            <label>X <input type="number" id="crop-x" min="0" step="1" value="0" /></label>
+            <label>Y <input type="number" id="crop-y" min="0" step="1" value="0" /></label>
+            <label>W <input type="number" id="crop-w" min="1" step="1" value="0" /></label>
+            <label>H <input type="number" id="crop-h" min="1" step="1" value="0" /></label>
+          </div>
+          <p class="hint">Drag the box on the preview, or type exact pixel values (based on the original video resolution).</p>
+        </div>
+
+        <div class="control-group">
+          <h2>Captions</h2>
+          <div id="caption-list"></div>
+          <button type="button" id="add-caption" class="secondary-btn">+ Add caption</button>
+        </div>
+
+        <div class="control-group export-group">
+          <button type="button" id="export-btn" class="primary-btn">Export video</button>
+          <div id="progress-wrap" class="progress-wrap hidden">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-label">0%</span>
+          </div>
+          <a id="download-link" class="download-link hidden" download="edited-video.mp4">Download edited video</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <template id="caption-template">
+    <div class="caption-item">
+      <div class="row">
+        <input type="text" class="cap-text" placeholder="Caption text" />
+        <button type="button" class="remove-caption mini-btn">Remove</button>
+      </div>
+      <div class="row four">
+        <label>Start <input type="number" class="cap-start" min="0" step="0.1" value="0" /></label>
+        <label>End <input type="number" class="cap-end" min="0" step="0.1" value="1" /></label>
+        <label>Size <input type="number" class="cap-size" min="8" step="1" value="32" /></label>
+        <label>Color <input type="color" class="cap-color" value="#ffffff" /></label>
+      </div>
+      <div class="row">
+        <label>Position
+          <select class="cap-pos">
+            <option value="top">Top</option>
+            <option value="middle">Middle</option>
+            <option value="bottom" selected>Bottom</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
